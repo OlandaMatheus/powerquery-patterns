@@ -33,6 +33,26 @@ A pasta [`exemplos`](exemplos/) tem uma base fictícia de contratos e uma consul
 3. pega o status atual de cada contrato
 4. calcula os dias até o vencimento e classifica em faixas para dashboard
 
+### Antes e depois
+
+Entrada, como sai da extração (dois contratos, com histórico de status):
+
+| Contrato | Fornecedor | Material | Data_Fim | Valor_Total | Status_Data | Status |
+|---|---|---|---|---|---|---|
+| 4600000101 | 0000100045 | 000000000000012345 | 31.01.2027 | 150.000,00 | 20260201 | Ativo |
+| 4600000101 | 0000100045 | 000000000000012345 | 31.01.2027 | 150.000,00 | 20260615 | Em revisão |
+| 4600000103 | 0000100045 | A-0012 | 31.12.2026 | 45.000,00 | 20260101 | Ativo |
+| 4600000103 | 0000100045 | A-0012 | 31.12.2026 | 45.000,00 | 20261020 | Encerramento previsto |
+
+Saída da consulta (uma linha por contrato, com tipos corretos):
+
+| Contrato | Fornecedor | Material | Data_Fim | Valor_Total | Status |
+|---|---|---|---|---|---|
+| 4600000101 | 100045 | 12345 | 31/01/2027 | 150000 | Em revisão |
+| 4600000103 | 100045 | A-0012 | 31/12/2026 | 45000 | Encerramento previsto |
+
+O que mudou: os zeros à esquerda saíram dos códigos numéricos (o código alfanumérico `A-0012` foi preservado), datas e valores viraram `date` e `number`, e o histórico ficou reduzido ao status mais recente de cada contrato.
+
 ## Como usar
 
 1. No Excel ou Power BI: **Obter Dados > Consulta Nula**
